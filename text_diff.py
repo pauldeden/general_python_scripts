@@ -1,13 +1,19 @@
 import argparse
 import difflib
+import textwrap
 import re
+
+def remove_junk(text):
+    text = re.sub(r'[\r\n]+', '', text)
+    text = re.sub(r'\s+', ' ', text)
+    return text
 
 def compare_files(file1_path, file2_path):
     with open(file1_path) as file1, open(file2_path) as file2:
-        content1 = file1.read().splitlines()
-        content2 = file2.read().splitlines()
+        content1 = textwrap.wrap(remove_junk(file1.read()))
+        content2 = textwrap.wrap(remove_junk(file2.read()))
 
-    diff = difflib.ndiff(content1, content2, linejunk=difflib.IS_LINE_JUNK, charjunk=difflib.IS_CHARACTER_JUNK)
+    diff = difflib.ndiff(content1, content2)
     differences = []
     i = j = 0
     for line in diff:
