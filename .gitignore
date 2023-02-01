@@ -130,3 +130,6 @@ dmypy.json
 
 # General text files used as script input
 *.txt
+
+# resp specific ignores
+data
